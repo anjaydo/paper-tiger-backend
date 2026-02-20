@@ -34,9 +34,10 @@ describe('OrdersController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      controllers: [OrdersController],
       providers: [
         OrdersService,
-        { provide: PrismaService, useValue: mockPrisma }, // Bơm đồ giả vào
+        { provide: PrismaService, useValue: mockPrisma },
         { provide: EventEmitter2, useValue: mockEventEmitter },
         { provide: TelegramService, useValue: mockTelegramService },
       ],

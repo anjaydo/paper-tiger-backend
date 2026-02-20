@@ -11,7 +11,5 @@ export function verifyTrelloSignature(
   const content = JSON.stringify(request.body) + callbackURL;
   const doubleHash = base64Digest(content);
   const headerHash = request.headers['x-trello-webhook'];
-  console.log('doubleHash: ', doubleHash);
-  console.log('headerHash: ', headerHash);
   return doubleHash == headerHash;
 }

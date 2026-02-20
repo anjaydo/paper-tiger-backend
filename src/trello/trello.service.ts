@@ -32,7 +32,7 @@ export class TrelloService {
           },
         }),
       );
-      console.log(`📦 Tạo Đơn hàng #${order.orderId}`);
+      console.log(`📦 Tạo Đơn hàng #${order?.orderId}`);
 
       // Trello related processing
       const cardId = response?.data?.id;
