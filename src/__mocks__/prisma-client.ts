@@ -13,6 +13,7 @@ export class PrismaClient {
     updateManyAndReturn: jest.fn(),
   };
   product = {
+    create: jest.fn(),
     findMany: jest.fn(),
     findUnique: jest.fn(),
     update: jest.fn(),

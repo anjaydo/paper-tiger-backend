@@ -7,10 +7,16 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createProductDto: CreateProductDto) {
-    const { name, price } = createProductDto;
-    console.log(name, price);
-    return 'This action adds a new product';
+  async create(createProductDto: CreateProductDto) {
+    const { name, price, stock } = createProductDto;
+    const product = await this.prisma.product.create({
+      data: {
+        name,
+        price,
+        stock: stock ?? 0,
+      },
+    });
+    return product;
   }
 
   findAll() {

@@ -8,7 +8,10 @@ describe('ProductsController', () => {
   let service: ProductsService;
 
   const mockPrisma = {
-    product: { findMany: jest.fn().mockResolvedValue([]) },
+    product: {
+      findMany: jest.fn().mockResolvedValue([]),
+      create: jest.fn(),
+    },
   };
 
   beforeEach(async () => {
@@ -30,17 +33,37 @@ describe('ProductsController', () => {
   });
 
   describe('create', () => {
-    it('should return service create result', () => {
-      expect(controller.create({ name: 'P', price: 10 })).toBe(
-        'This action adds a new product',
-      );
+    it('should call service create and return created product', async () => {
+      const dto = { name: 'P', price: 10, stock: 5 };
+      const created = { id: 'prod-1', name: 'P', price: 10, stock: 5 };
+      mockPrisma.product.create.mockResolvedValue(created);
+
+      const result = await controller.create(dto);
+
+      expect(result).toMatchObject(created);
+      expect(mockPrisma.product.create).toHaveBeenCalledWith({
+        data: { name: 'P', price: 10, stock: 5 },
+      });
+    });
+
+    it('should pass stock 0 when stock is omitted (stock ?? 0)', async () => {
+      const dto = { name: 'Q', price: 20 };
+      const created = { id: 'prod-2', name: 'Q', price: 20, stock: 0 };
+      mockPrisma.product.create.mockResolvedValue(created);
+
+      const result = await controller.create(dto);
+
+      expect(result).toMatchObject(created);
+      expect(mockPrisma.product.create).toHaveBeenCalledWith({
+        data: { name: 'Q', price: 20, stock: 0 },
+      });
     });
   });
 
   describe('findAll', () => {
     it('should return service findAll result', async () => {
       const products = [{ id: '1', name: 'P1' }];
-      (mockPrisma.product.findMany as jest.Mock).mockResolvedValue(products);
+      mockPrisma.product.findMany.mockResolvedValue(products);
 
       const result = await controller.findAll();
 

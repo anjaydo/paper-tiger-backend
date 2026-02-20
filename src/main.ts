@@ -5,6 +5,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     rawBody: true,
   });
-  await app.listen(process.env.PORT ?? 3000);
+  app.enableCors();
+
+  // Quan trọng: Chỉ listen khi không phải môi trường Vercel
+  if (process.env.NODE_ENV !== 'production') {
+    await app.listen(3000);
+  }
 }
 bootstrap();
