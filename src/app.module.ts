@@ -14,12 +14,7 @@ import { AllExceptionsFilter } from './common/filters/all-exceptions/all-excepti
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    EventEmitterModule.forRoot({
-      // Các cấu hình tùy chọn (không bắt buộc)
-      wildcard: true, // Cho phép dùng ký tự * (VD: order.*)
-      delimiter: '.', // Dấu phân cách giữa các level sự kiện
-      verboseMemoryLeak: true, // Cảnh báo nếu bị rò rỉ bộ nhớ
-    }),
+    EventEmitterModule.forRoot({}),
     ProductsModule,
     OrdersModule,
     PrismaModule,

@@ -6,10 +6,6 @@ async function bootstrap() {
     rawBody: true,
   });
   app.enableCors();
-
-  // Quan trọng: Chỉ listen khi không phải môi trường Vercel
-  if (process.env.NODE_ENV !== 'production') {
-    await app.listen(3000);
-  }
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
